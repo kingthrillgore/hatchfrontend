@@ -1,27 +1,32 @@
-import logo from './logo.svg'
 import './App.css'
 import React from 'react'
 
 const { useEffect, useState } = React
 const axios = require('axios')
 
-const createReservation = () => {
-  const obj = {
-    name: reservation_name,
-    size: reservation_size
+/* const createReservation = ({stateChanger, ...props}) => {
+
+  const [name, setName] = useState('')
+  const [size, setSize] = useState(0)
+
+  const createNewReservation = () => {
+    const obj = {
+      name: reservation_name,
+      size: reservation_size
+    }
+  
+    axios.post('http://127.0.0.1/reserve', obj)
+    .then(function (res) {
+      // TODO we need to re-fire the render
+    }).catch(function (err) {
+      console.log("err",err)
+    }).then(function () {
+      // Always Runs
+    })
   }
+} */
 
-  axios.post('http://127.0.0.1/reserve', obj)
-  .then(function (res) {
-
-  }).catch(function (err) {
-    console.log("err",err)
-  }).then(function () {
-    // Always Runs
-  })
-}
-
-const ReservationWrapper = () => {
+const ReservationsWrapper = () => {
   const [data, setData] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [error, setError] = useState([])
@@ -98,12 +103,15 @@ const ReservationWrapper = () => {
   }
 }
 
-const NewReservation = () => {
+const NewReservation = ({stateChanger, ...props}) => {
+  const [name, setName] = useState('')
+  const [size, setSize] = useState(0)
 
   const createNewReservation = () => {
-
-    const obj = {}
-
+    const obj = {
+      name: name,
+      size: size
+    }
     axios.post('http://127.0.0.1/reserve', obj)
     .then(function (res) {
       // TODO have it fire a GET to update ReservationWrapper
@@ -128,29 +136,24 @@ const NewReservation = () => {
         <input type='number' placeholder='0' name="size" />
       </div>
 
-      <button onClick={() => createNewReservation()}>Save Reservation</button>
+      <button onClick={() => createNewReservation()}>Save</button>
     </div>
   )
+}
 
+const ReservationList = () => {
+  return (
+    <tr>
+      <td>Parties of NUM</td>
+      <td>999</td>
+    </tr>
+  )
 }
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ReservationsWrapper />
     </div>
   );
 }
