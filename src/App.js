@@ -5,83 +5,32 @@ import axios from 'axios'
 const { useEffect, useState } = React
 
 const ReservationsWrapper = ({ data }) => {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [error, setError] = useState([])
-  const [changeState, setChangeState] = useState('')
-  const [updateState, setUpdateState] = useState(false)
+  return (
+    <div className="reservations-container col-span-6  sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6">
+      <h2>Reservations</h2>
 
-  /* useEffect(() => {
-    console.log("data", data)
-    axios.get('http://127.0.0.1/reserve')
-    .then(function (res) {
-      setIsLoaded(true)
-      //setData(res)
-    })
-    .catch(function (err) {
-      setError(err)
-    })
-    .then(function() {
-      // always runs
-    })
-  }, [])
-
-  useEffect(() => {
-    console.log("data", data)
-    setIsLoaded(false)
-
-    axios.get('http://127.0.0.1/reserve')
-    .then(function (res) {
-      setIsLoaded(true)
-      //setData(res)
-    })
-    .catch(function (err) {
-      setError(err)
-    })
-    .then(function() {
-      // Always runs
-    })
-  }, [changeState]) */
-
-  //console.log("Data", data);
-
-  /* data.forEach(
-    (element) => console.log(element)
-  ) */
-
-  //const JoinedRecord = arr
-
-  if (error.length > 0) {
-    return (
-      <div>
-        <h2>Guru Meditation: {error.message}</h2>
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Reservation Seats</th>
+              <th>Amount reserved</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              data.map(record => (
+                <Reservation
+                  names={record.name}
+                  size={record.size}
+                />
+              ))
+            }
+          </tbody>
+        </table>
       </div>
-    )
-  } else if (!isLoaded) {
-    return (
-      <div>
-        <h2>Please Wait...</h2>
-      </div>
-    )
-  } else {
-    return (
-      <div className="reservations-container col-span-6  sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6">
-        <h2>Reservations</h2>
-
-        <div className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Reservation Seats</th>
-                <th>Amount reserved</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    )
-  }
+    </div>
+  )
 }
 
 const NewReservation = props => {
@@ -127,21 +76,21 @@ const NewReservation = props => {
   )
 }
 
-const ReservationList = () => {
+const Reservation = ({names, size}) => {
   return (
     <tr>
-      <td>Parties of NUM</td>
-      <td>999</td>
+      <td>
+        <div>{size}</div>
+      </td>
+      <td>
+        <div>{names}</div>
+      </td>
     </tr>
   )
 }
 
 const Wrapper = () => {
-  const [data, setData] = useState(null)
-
-  /* const updateState = (values) => {
-    setData(values)
-  } */
+  const [data, setData] = useState([])
 
   return (
     <div className="grid grid-cols-12 gap-1">
