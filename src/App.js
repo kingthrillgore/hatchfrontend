@@ -1,43 +1,21 @@
 import './App.css'
 import React from 'react'
+import axios from 'axios'
 
 const { useEffect, useState } = React
-const axios = require('axios')
 
-/* const createReservation = ({stateChanger, ...props}) => {
-
-  const [name, setName] = useState('')
-  const [size, setSize] = useState(0)
-
-  const createNewReservation = () => {
-    const obj = {
-      name: reservation_name,
-      size: reservation_size
-    }
-  
-    axios.post('http://127.0.0.1/reserve', obj)
-    .then(function (res) {
-      // TODO we need to re-fire the render
-    }).catch(function (err) {
-      console.log("err",err)
-    }).then(function () {
-      // Always Runs
-    })
-  }
-} */
-
-const ReservationsWrapper = () => {
-  const [data, setData] = useState(null)
+const ReservationsWrapper = ({ data }) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [error, setError] = useState([])
   const [changeState, setChangeState] = useState('')
   const [updateState, setUpdateState] = useState(false)
 
-  useEffect(() => {
+  /* useEffect(() => {
+    console.log("data", data)
     axios.get('http://127.0.0.1/reserve')
     .then(function (res) {
       setIsLoaded(true)
-      setData(res)
+      //setData(res)
     })
     .catch(function (err) {
       setError(err)
@@ -48,12 +26,13 @@ const ReservationsWrapper = () => {
   }, [])
 
   useEffect(() => {
+    console.log("data", data)
     setIsLoaded(false)
 
-    axios.get('http://127.0.0.1/greeting/all')
+    axios.get('http://127.0.0.1/reserve')
     .then(function (res) {
       setIsLoaded(true)
-      setData(res)
+      //setData(res)
     })
     .catch(function (err) {
       setError(err)
@@ -61,7 +40,15 @@ const ReservationsWrapper = () => {
     .then(function() {
       // Always runs
     })
-  }, [changeState])
+  }, [changeState]) */
+
+  //console.log("Data", data);
+
+  /* data.forEach(
+    (element) => console.log(element)
+  ) */
+
+  //const JoinedRecord = arr
 
   if (error.length > 0) {
     return (
@@ -77,7 +64,7 @@ const ReservationsWrapper = () => {
     )
   } else {
     return (
-      <div className="reservations-container">
+      <div className="reservations-container col-span-6  sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6">
         <h2>Reservations</h2>
 
         <div className="table-container">
@@ -92,48 +79,47 @@ const ReservationsWrapper = () => {
             </tbody>
           </table>
         </div>
-
-        <div>
-          <div className="new-reservation-container">
-
-          </div>
-        </div>
       </div>
     )
   }
 }
 
-const NewReservation = ({stateChanger, ...props}) => {
+const NewReservation = props => {
   const [name, setName] = useState('')
   const [size, setSize] = useState(0)
 
   const createNewReservation = () => {
     const obj = {
       name: name,
-      size: size
+      size: parseInt(size)
     }
+
     axios.post('http://127.0.0.1/reserve', obj)
     .then(function (res) {
-      // TODO have it fire a GET to update ReservationWrapper
+      axios.get('http://127.0.0.1./reserve')
+      .then(function (res) {
+        props.setData(res.data)
+      })
     })
     .catch(function (err) {
       console.log(err)
     })
     .then(function() {
-      // Always runs
+      setName('')
+      setSize(0)
     })
   }
 
   return (
-    <div className='create-container'>
+    <div className='create-container col-span-6 sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6'>
       <div className='form-element'>
         <label for="name">Name</label>
-        <input type='text' placeholder='Party Name' name="name" />
+        <input type='text' placeholder='Party Name' name="name" value={name} onChange={event => setName(event.target.value)} />
       </div>
 
       <div className='form-element'>
         <label for="size">Party Size</label>
-        <input type='number' placeholder='0' name="size" />
+        <input type='number' placeholder='0' name="size" value={size} onChange={event => setSize(event.target.value)} />
       </div>
 
       <button onClick={() => createNewReservation()}>Save</button>
@@ -150,12 +136,27 @@ const ReservationList = () => {
   )
 }
 
+const Wrapper = () => {
+  const [data, setData] = useState(null)
+
+  /* const updateState = (values) => {
+    setData(values)
+  } */
+
+  return (
+    <div className="grid grid-cols-12 gap-1">
+      <ReservationsWrapper data={data} />
+      <NewReservation setData={setData} data={data} />
+    </div>
+  )
+}
+
 function App() {
   return (
-    <div className="App">
-      <ReservationsWrapper />
+    <div className="App container md-auto px-4">
+      <Wrapper />
     </div>
-  );
+  )
 }
 
 export default App;

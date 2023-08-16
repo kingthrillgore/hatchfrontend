@@ -18,6 +18,10 @@ Syd would like to be able to see the totals at the end of the day, but has agree
 
 .5h on Backend development
 
+### 16 Aug 2023
+
+.5h on Frontend initial development
+
 ## Create React App README
 
 # Getting Started with Create React App
