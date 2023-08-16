@@ -4,7 +4,11 @@ You will have committed a severe case of epic fail if you use this code to cheat
 
 ## Installing
 
-TBD
+Clone this repo
+cd into repo
+run `npm start`
+
+Make sure the backend is running too.
 
 ## User Story 
 
@@ -21,6 +25,7 @@ Syd would like to be able to see the totals at the end of the day, but has agree
 ### 16 Aug 2023
 
 .5h on Frontend initial development
+.5h on touchups
 
 ## Create React App README
 
